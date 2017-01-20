@@ -47,11 +47,13 @@ public class GestureDetector : IDisposable
 {
     /// <summary> Path to the gesture database that was trained with VGB </summary>
     private readonly string leanDB = "GestureDB\\Lean.gbd";
+    private readonly string flickDB = "GestureDB\\flick.gbd";
 
 
     /// <summary> Name of the discrete gesture in the database that we want to track </summary>
     private readonly string leanLeftGestureName = "Lean_Left";
     private readonly string leanRightGestureName = "Lean_Right";
+    private readonly string flickGestureName = "flick";
 
     /// <summary> Gesture frame source which should be tied to a body tracking ID </summary>
     private VisualGestureBuilderFrameSource vgbFrameSource = null;
@@ -113,6 +115,10 @@ public class GestureDetector : IDisposable
                     this.vgbFrameSource.AddGesture(gesture);
                 }
                 if (gesture.Name.Equals(this.leanRightGestureName))
+                {
+                    this.vgbFrameSource.AddGesture(gesture);
+                }
+                if (gesture.Name.Equals(this.flickGestureName))
                 {
                     this.vgbFrameSource.AddGesture(gesture);
                 }
@@ -238,6 +244,20 @@ public class GestureDetector : IDisposable
                                 if (this.OnGestureDetected != null)
                                 {
                                     this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.leanRightGestureName));
+                                }
+                            }
+                        }
+
+                        if (gesture.Name.Equals(this.flickGestureName) && gesture.GestureType == GestureType.Discrete)
+                        {
+                            DiscreteGestureResult result = null;
+                            discreteResults.TryGetValue(gesture, out result);
+
+                            if (result != null)
+                            {
+                                if (this.OnGestureDetected != null)
+                                {
+                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.flickGestureName));
                                 }
                             }
                         }

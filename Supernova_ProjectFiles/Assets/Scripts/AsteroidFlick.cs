@@ -4,9 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class AsteroidLean : MonoBehaviour
+public class AsteroidFlick : MonoBehaviour
 {
-    [SerializeField] GameObject[] asteroids1, asteroids2;
+    [SerializeField]
+    GameObject[] asteroids1, asteroids2;
 
     KinectSensor sensor;
     BodyFrameReader bodyFrameReader;
@@ -76,28 +77,10 @@ public class AsteroidLean : MonoBehaviour
     {
         bool isDetected = e.IsBodyTrackingIdValid && e.IsGestureDetected;
 
-        if (e.GestureID == "Lean_Left")
+        if (e.GestureID == "flick")
         {
-            if (e.DetectionConfidence > 0.65f)
-            {
-                print("leaning left");
-            }
-            else
-            {
-                print("not leaning left");
-            }
-        }
-
-        if (e.GestureID == "Lean_Right")
-        {
-            if (e.DetectionConfidence > 0.65f)
-            {
-                print("leaning right");
-            }
-            else
-            {
-                print("not leaning right");
-            }
+            foreach (GameObject g in asteroids1) Destroy(g);
+            print("flicking");
         }
     }
 
