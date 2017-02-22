@@ -79,11 +79,11 @@ public class AsteroidLean : MonoBehaviour
         {
             if (e.DetectionConfidence > 0.65f)
             {
-                print("leaning left");
+                foreach (GameObject g in asteroids1) g.SetActive(false);
             }
             else
             {
-                print("not leaning left");
+                foreach (GameObject g in asteroids2) g.SetActive(false);
             }
         }
 
