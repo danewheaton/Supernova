@@ -64,7 +64,6 @@ public class AsteroidLean : MonoBehaviour
                 }
             }
         }
-
     }
 
     private EventHandler<GestureEventArgs> CreateOnGestureHandler(int bodyIndex)
