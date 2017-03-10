@@ -79,8 +79,11 @@ public class AsteroidFlick : MonoBehaviour
 
         if (e.GestureID == "flick")
         {
-            foreach (GameObject g in asteroids1) Destroy(g);
-            print("flicking");
+            if (e.DetectionConfidence > .85f)
+            {
+                foreach (GameObject g in asteroids1) Destroy(g);
+                print("flicking");
+            }
         }
     }
 

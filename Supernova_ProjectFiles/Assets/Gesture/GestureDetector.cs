@@ -118,6 +118,16 @@ public class GestureDetector : IDisposable
                 {
                     this.vgbFrameSource.AddGesture(gesture);
                 }
+            }
+        }
+
+        var secondDatabasePath = Path.Combine(Application.streamingAssetsPath, this.flickDB);
+        using (VisualGestureBuilderDatabase secondDatabase = VisualGestureBuilderDatabase.Create(secondDatabasePath))
+        {
+            // we could load all available gestures in the database with a call to vgbFrameSource.AddGestures(database.AvailableGestures), 
+            // but for this program, we only want to track one discrete gesture from the database, so we'll load it by name
+            foreach (Gesture gesture in secondDatabase.AvailableGestures)
+            {
                 if (gesture.Name.Equals(this.flickGestureName))
                 {
                     this.vgbFrameSource.AddGesture(gesture);
