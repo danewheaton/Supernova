@@ -81,8 +81,10 @@ public class AsteroidFlick : MonoBehaviour
         {
             if (e.DetectionConfidence > .85f)
             {
-                foreach (GameObject g in asteroids1) Destroy(g);
-                print("flicking");
+                foreach (GameObject g in asteroids1)
+                {
+                    g.GetComponent<Rigidbody>().AddExplosionForce(UnityEngine.Random.Range(100, 500), new Vector3(0, 0, 20), 20);
+                }
             }
         }
     }
