@@ -18,7 +18,11 @@ public class FlyThroughSpace : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.z < rearZDist) transform.position = new Vector3(startPos.x, startPos.y, frontZDist);
+        if (transform.position.z < rearZDist)
+        {
+            transform.position = new Vector3(startPos.x, startPos.y, frontZDist);
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+        }
         transform.position -= transform.forward * speed;
     }
 }
