@@ -84,6 +84,8 @@ public class GestureManager : MonoBehaviour
         return (object sender, GestureEventArgs e) => OnGestureDetected(sender, e, bodyIndex);
     }
 
+
+    // this is the function we're most concerned with - as the name implies, it's called when a gesture is detected
     private void OnGestureDetected(object sender, GestureEventArgs e, int bodyIndex)
     {
         if (e.GestureID == "flick" && e.DetectionConfidence > flickDetectionConfidence && OnFlickDetected != null)
@@ -95,6 +97,7 @@ public class GestureManager : MonoBehaviour
         if (e.GestureID == "Lean_Right" && e.DetectionConfidence > leanDetectionConfidence && OnLeanRightDetected != null)
             OnLeanRightDetected();
     }
+
 
     void OnApplicationQuit()
     {

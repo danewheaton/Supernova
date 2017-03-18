@@ -22,37 +22,28 @@ public class AsteroidFlick : MonoBehaviour
 
     [SerializeField]
     int maxScore = 100;
-
-    KinectSensor sensor;
-    BodyFrameReader bodyFrameReader;
-    Body[] bodies;
-
-    int bodyCount;
-
-    List<GestureDetector> gestureDetectorList = null;
+    
     List<Rigidbody> flickedAsteroids;
 
     Color originalColor;
     Vector2 originalSize;
     bool canFlick = true;
 
+    // whenever this script is enabled, we can subscribe to events in GestureManager
+    void OnEnable()
+    {
+        // when OnFlickDetected happens, link it to our own FlickAsteroids function
+        GestureManager.OnFlickDetected += FlickAsteroids;
+    }
+
+    // likewise, when this script is disabled, it's a good idea to unsubscribe (so that function calls don't pile up)
+    void OnDisable()
+    {
+        GestureManager.OnFlickDetected -= FlickAsteroids;
+    }
+
     void Start()
     {
-        sensor = KinectSensor.GetDefault();
-
-        if (sensor != null)
-        {
-            bodyFrameReader = sensor.BodyFrameSource.OpenReader();
-            bodyCount = sensor.BodyFrameSource.BodyCount;
-            bodies = new Body[bodyCount];
-
-            gestureDetectorList = new List<GestureDetector>();
-            for (int bodyIndex = 0; bodyIndex < bodyCount; bodyIndex++)
-                gestureDetectorList.Add(new GestureDetector(sensor));
-
-            sensor.Open();
-        }
-
         asteroidsInTrigger = new List<Rigidbody>();
         flickedAsteroids = new List<Rigidbody>();
 
@@ -64,81 +55,32 @@ public class AsteroidFlick : MonoBehaviour
 
     void Update()
     {
-        bool newBodyData = false;
-        using (BodyFrame bodyFrame = bodyFrameReader.AcquireLatestFrame())
-        {
-            if (bodyFrame != null)
-            {
-                bodyFrame.GetAndRefreshBodyData(bodies);
-                newBodyData = true;
-            }
-        }
-
-        if (newBodyData)
-        {
-            for (int bodyIndex = 0; bodyIndex < bodyCount; bodyIndex++)
-            {
-                Body body = bodies[bodyIndex];
-                if (body != null)
-                {
-                    ulong trackingId = body.TrackingId;
-
-                    if (trackingId != gestureDetectorList[bodyIndex].TrackingId)
-                    {
-                        gestureDetectorList[bodyIndex].TrackingId = trackingId;
-                        gestureDetectorList[bodyIndex].IsPaused = (trackingId == 0);
-                        gestureDetectorList[bodyIndex].OnGestureDetected += CreateOnGestureHandler(bodyIndex);
-                    }
-                }
-            }
-        }
-
+        // print score to screen
         if (flickedAsteroids.Count > 0) scoreText.text = flickedAsteroids.Count.ToString();
+
+        // if enough asteroids have been swiped, go to win screen
         if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene(2);
     }
 
     void OnTriggerEnter(Collider other)
     {
+        // if an asteroid bumps into you, shake the screen
         StartCoroutine(ScreenShake());
     }
 
-    private EventHandler<GestureEventArgs> CreateOnGestureHandler(int bodyIndex)
+    void FlickAsteroids()
     {
-        return (object sender, GestureEventArgs e) => OnGestureDetected(sender, e, bodyIndex);
-    }
-
-    private void OnGestureDetected(object sender, GestureEventArgs e, int bodyIndex)
-    {
-        bool isDetected = e.IsBodyTrackingIdValid && e.IsGestureDetected;
-
-        if (e.GestureID == "flick")
+        // for each asteroid that's close enough
+        foreach (Rigidbody r in asteroidsInTrigger)
         {
-            if (e.DetectionConfidence > .85f)
-            {
-                foreach (Rigidbody r in asteroidsInTrigger)
-                {
-                    r.AddForce(Vector3.right * flickForce);
-                    if (canFlick) flickedAsteroids.Add(r);
-                }
-                canFlick = false;
-                StartCoroutine(ScoreTextEffects());
-            }
+            // push the asteroid offscreen to the right
+            r.AddForce(Vector3.right * flickForce);
+            if (canFlick) flickedAsteroids.Add(r);
         }
-    }
+        canFlick = false;
 
-    void OnApplicationQuit()
-    {
-        if (bodyFrameReader != null)
-        {
-            bodyFrameReader.Dispose();
-            bodyFrameReader = null;
-        }
-
-        if (sensor != null)
-        {
-            if (sensor.IsOpen) sensor.Close();
-            sensor = null;
-        }
+        // make the score text flash
+        StartCoroutine(ScoreTextEffects());
     }
 
     IEnumerator ScoreTextEffects()
@@ -147,7 +89,10 @@ public class AsteroidFlick : MonoBehaviour
         float elapsedTime = 0;
         while (elapsedTime < timer)
         {
+            // make the score text yellow
             scoreText.color = Color.Lerp(originalColor, Color.yellow, elapsedTime / timer);
+
+            // make the score text bigger
             scoreText.transform.localScale = Vector2.Lerp(originalSize, originalSize * 1.5f, elapsedTime / timer);
 
             elapsedTime += Time.deltaTime;
@@ -157,7 +102,10 @@ public class AsteroidFlick : MonoBehaviour
         elapsedTime = 0;
         while (elapsedTime < timer)
         {
+            // change the score text back to its original color
             scoreText.color = Color.Lerp(Color.yellow, originalColor, elapsedTime / timer);
+
+            // change the score text back to its original size
             scoreText.transform.localScale = Vector2.Lerp(originalSize * 1.5f, originalSize, elapsedTime / timer);
 
             elapsedTime += Time.deltaTime;
@@ -178,6 +126,7 @@ public class AsteroidFlick : MonoBehaviour
         float elapsedTime = 0;
         while (elapsedTime < screenShakeTimer)
         {
+            // shake the camera
             Camera.main.transform.localPosition = new Vector3
                 (originalCamPos.x + UnityEngine.Random.insideUnitSphere.x * screenShakeIntensity,
                 originalCamPos.z + UnityEngine.Random.insideUnitSphere.z * screenShakeIntensity,
