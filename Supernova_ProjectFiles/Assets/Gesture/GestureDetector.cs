@@ -22,13 +22,6 @@ public class GestureEventArgs : EventArgs
     //my modification
     public string GestureID { get; private set; }
 
-    //public GestureEventArgs(bool isBodyTrackingIdValid, bool isGestureDetected, float detectionConfidence)
-    //{
-    //    this.IsBodyTrackingIdValid = isBodyTrackingIdValid;
-    //    this.IsGestureDetected = isGestureDetected;
-    //    this.DetectionConfidence = detectionConfidence;
-    //}
-
     //my mod
     public GestureEventArgs(bool isBodyTrackingIdValid, bool isGestureDetected, float detectionConfidence, string gestureID)
     {
@@ -48,12 +41,18 @@ public class GestureDetector : IDisposable
     /// <summary> Path to the gesture database that was trained with VGB </summary>
     private readonly string leanDB = "GestureDB\\Lean.gbd";
     private readonly string flickDB = "GestureDB\\flick.gbd";
+    private readonly string pressDB = "GestureDB\\press.gbd";
+    private readonly string pushDB = "GestureDB\\push.gbd";
+    private readonly string squatDB = "GestureDB\\squat.gbd";
 
 
     /// <summary> Name of the discrete gesture in the database that we want to track </summary>
     private readonly string leanLeftGestureName = "Lean_Left";
     private readonly string leanRightGestureName = "Lean_Right";
     private readonly string flickGestureName = "flick";
+    private readonly string pressGestureName = "press";
+    private readonly string pushGestureName = "push";
+    private readonly string squatGestureName = "squat";
 
     /// <summary> Gesture frame source which should be tied to a body tracking ID </summary>
     private VisualGestureBuilderFrameSource vgbFrameSource = null;
@@ -86,28 +85,11 @@ public class GestureDetector : IDisposable
             this.vgbFrameReader.FrameArrived += this.Reader_GestureFrameArrived;
         }
 
-        //// load the 'Seated' gesture from the gesture database
-        //var databasePath = Path.Combine(Application.streamingAssetsPath, this.gestureDatabase);
-        //using (VisualGestureBuilderDatabase database = VisualGestureBuilderDatabase.Create(databasePath))
-        //{
-        //    // we could load all available gestures in the database with a call to vgbFrameSource.AddGestures(database.AvailableGestures), 
-        //    // but for this program, we only want to track one discrete gesture from the database, so we'll load it by name
-        //    foreach (Gesture gesture in database.AvailableGestures)
-        //    {
-        //        if (gesture.Name.Equals(this.seatedGestureName))
-        //        {
-        //            this.vgbFrameSource.AddGesture(gesture);
-        //        }
-        //    }
-        //}
-
 
         // load the 'Seated' gesture from the gesture database
         var databasePath = Path.Combine(Application.streamingAssetsPath, this.leanDB);
         using (VisualGestureBuilderDatabase database = VisualGestureBuilderDatabase.Create(databasePath))
         {
-            // we could load all available gestures in the database with a call to vgbFrameSource.AddGestures(database.AvailableGestures), 
-            // but for this program, we only want to track one discrete gesture from the database, so we'll load it by name
             foreach (Gesture gesture in database.AvailableGestures)
             {
                 if (gesture.Name.Equals(this.leanLeftGestureName))
@@ -124,11 +106,45 @@ public class GestureDetector : IDisposable
         var secondDatabasePath = Path.Combine(Application.streamingAssetsPath, this.flickDB);
         using (VisualGestureBuilderDatabase secondDatabase = VisualGestureBuilderDatabase.Create(secondDatabasePath))
         {
-            // we could load all available gestures in the database with a call to vgbFrameSource.AddGestures(database.AvailableGestures), 
-            // but for this program, we only want to track one discrete gesture from the database, so we'll load it by name
             foreach (Gesture gesture in secondDatabase.AvailableGestures)
             {
                 if (gesture.Name.Equals(this.flickGestureName))
+                {
+                    this.vgbFrameSource.AddGesture(gesture);
+                }
+            }
+        }
+
+        var thirdDatabasePath = Path.Combine(Application.streamingAssetsPath, this.pressDB);
+        using (VisualGestureBuilderDatabase thirdDatabase = VisualGestureBuilderDatabase.Create(secondDatabasePath))
+        {
+            foreach (Gesture gesture in thirdDatabase.AvailableGestures)
+            {
+                if (gesture.Name.Equals(this.pressGestureName))
+                {
+                    this.vgbFrameSource.AddGesture(gesture);
+                }
+            }
+        }
+
+        var fourthDatabasePath = Path.Combine(Application.streamingAssetsPath, this.pushDB);
+        using (VisualGestureBuilderDatabase fourthDatabase = VisualGestureBuilderDatabase.Create(secondDatabasePath))
+        {
+            foreach (Gesture gesture in fourthDatabase.AvailableGestures)
+            {
+                if (gesture.Name.Equals(this.pushGestureName))
+                {
+                    this.vgbFrameSource.AddGesture(gesture);
+                }
+            }
+        }
+
+        var fifthDatabasePath = Path.Combine(Application.streamingAssetsPath, this.squatDB);
+        using (VisualGestureBuilderDatabase fifthDatabase = VisualGestureBuilderDatabase.Create(secondDatabasePath))
+        {
+            foreach (Gesture gesture in fifthDatabase.AvailableGestures)
+            {
+                if (gesture.Name.Equals(this.squatGestureName))
                 {
                     this.vgbFrameSource.AddGesture(gesture);
                 }
@@ -268,6 +284,48 @@ public class GestureDetector : IDisposable
                                 if (this.OnGestureDetected != null)
                                 {
                                     this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.flickGestureName));
+                                }
+                            }
+                        }
+
+                        if (gesture.Name.Equals(this.pressGestureName) && gesture.GestureType == GestureType.Discrete)
+                        {
+                            DiscreteGestureResult result = null;
+                            discreteResults.TryGetValue(gesture, out result);
+
+                            if (result != null)
+                            {
+                                if (this.OnGestureDetected != null)
+                                {
+                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.pressGestureName));
+                                }
+                            }
+                        }
+
+                        if (gesture.Name.Equals(this.pushGestureName) && gesture.GestureType == GestureType.Discrete)
+                        {
+                            DiscreteGestureResult result = null;
+                            discreteResults.TryGetValue(gesture, out result);
+
+                            if (result != null)
+                            {
+                                if (this.OnGestureDetected != null)
+                                {
+                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.pushGestureName));
+                                }
+                            }
+                        }
+
+                        if (gesture.Name.Equals(this.squatGestureName) && gesture.GestureType == GestureType.Discrete)
+                        {
+                            DiscreteGestureResult result = null;
+                            discreteResults.TryGetValue(gesture, out result);
+
+                            if (result != null)
+                            {
+                                if (this.OnGestureDetected != null)
+                                {
+                                    this.OnGestureDetected(this, new GestureEventArgs(true, result.Detected, result.Confidence, this.squatGestureName));
                                 }
                             }
                         }

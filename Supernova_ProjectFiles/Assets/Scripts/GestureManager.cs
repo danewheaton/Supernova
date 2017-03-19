@@ -4,20 +4,36 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
+// IMPORTANT NOTE! go to the script "GestureDetector.cs" when you want to add a new gesture to the database
+
 public class GestureManager : MonoBehaviour
 {
     // events are signals that are sent out by this class to let other classes know when something important happens - in this case, when a gesture is detected by the Kinect
     #region gesture events
+
     public delegate void FlickDetected();
     public static event FlickDetected OnFlickDetected;
+
     public delegate void LeanLeftDetected();
-    public static event LeanRightDetected OnLeanLeftDetected;
+    public static event LeanLeftDetected OnLeanLeftDetected;
+
     public delegate void LeanRightDetected();
     public static event LeanRightDetected OnLeanRightDetected;
+
+    public delegate void PressDetected();
+    public static event PressDetected OnPressDetected;
+
+    public delegate void PushDetected();
+    public static event PushDetected OnPushDetected;
+
+    public delegate void SquatDetected();
+    public static event SquatDetected OnSquatDetected;
+
     #endregion
 
     [SerializeField]
-    float flickDetectionConfidence = .75f, leanDetectionConfidence = .75f;
+    float flickDetectionConfidence = .75f, leanDetectionConfidence = .75f, pressDetectionConfidence = .75f,
+        pushDetectionConfidence = .75f, squatDetectionConfidence = .75f;
 
     KinectSensor sensor;
     BodyFrameReader bodyFrameReader;
@@ -86,16 +102,26 @@ public class GestureManager : MonoBehaviour
 
 
     // this is the function we're most concerned with - as the name implies, it's called when a gesture is detected
+    // IMPORTANT NOTE! go to the script "GestureDetector.cs" when you want to add a new gesture to the database
     private void OnGestureDetected(object sender, GestureEventArgs e, int bodyIndex)
     {
-        if (e.GestureID == "flick" && e.DetectionConfidence > flickDetectionConfidence && OnFlickDetected != null)
-            OnFlickDetected();
-
         if (e.GestureID == "Lean_Left" && e.DetectionConfidence > leanDetectionConfidence && OnLeanLeftDetected != null)
             OnLeanLeftDetected();
 
         if (e.GestureID == "Lean_Right" && e.DetectionConfidence > leanDetectionConfidence && OnLeanRightDetected != null)
             OnLeanRightDetected();
+
+        if (e.GestureID == "flick" && e.DetectionConfidence > flickDetectionConfidence && OnFlickDetected != null)
+            OnFlickDetected();
+
+        if (e.GestureID == "press" && e.DetectionConfidence > pressDetectionConfidence && OnPressDetected != null)
+            OnPressDetected();
+
+        if (e.GestureID == "push" && e.DetectionConfidence > pushDetectionConfidence && OnPushDetected != null)
+            OnPushDetected();
+
+        if (e.GestureID == "squat" && e.DetectionConfidence > squatDetectionConfidence && OnSquatDetected != null)
+            OnSquatDetected();
     }
 
 
