@@ -17,12 +17,18 @@ public class MenuSwipe : MonoBehaviour
     {
         // when OnFlickDetected happens, link it to our own SwipeText function
         GestureManager.OnFlickDetected += SwipeText;
+        GestureManager.OnSquatDetected += Squat;
+        GestureManager.OnLeanLeftDetected += Lean;
+        GestureManager.OnLeanRightDetected += Lean;
     }
 
     // likewise, when this script is disabled, it's a good idea to unsubscribe (so that function calls don't pile up)
     void OnDisable()
     {
         GestureManager.OnFlickDetected -= SwipeText;
+        GestureManager.OnSquatDetected -= Squat;
+        GestureManager.OnLeanLeftDetected -= Lean;
+        GestureManager.OnLeanRightDetected -= Lean;
     }
 
     void Start()
@@ -37,10 +43,20 @@ public class MenuSwipe : MonoBehaviour
 
     void SwipeText()
     {
-        if (canSwipe) StartCoroutine(PushTextOffscreen());
+        if (canSwipe && ChangeGame.currentGame == GameState.FLICKING) StartCoroutine(PushTextOffscreen(true));
     }
 
-    IEnumerator PushTextOffscreen()
+    void Squat()
+    {
+        if (canSwipe && ChangeGame.currentGame == GameState.SQUATTING) StartCoroutine(PushTextOffscreen(false));
+    }
+
+    void Lean()
+    {
+        if (SceneManager.GetActiveScene().buildIndex > 2) SceneManager.LoadScene(0);
+    }
+
+    IEnumerator PushTextOffscreen(bool flicking)
     {
         float timer = 1;
         float elapsedTime = 0;
@@ -50,8 +66,8 @@ public class MenuSwipe : MonoBehaviour
             {
                 #region push text offscreen
 
-                if (t is RectTransform) t.transform.position += Vector3.right * flickForce * 100;
-                else t.transform.position += Vector3.right * flickForce;
+                if (t is RectTransform) t.transform.position += (flicking ? Vector3.right : Vector3.up) * flickForce * 100;
+                else t.transform.position += (flicking ? Vector3.right : Vector3.up) * flickForce;
 
                 #endregion
 
@@ -60,6 +76,6 @@ public class MenuSwipe : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(flicking ? 1 : 2);
     }
 }

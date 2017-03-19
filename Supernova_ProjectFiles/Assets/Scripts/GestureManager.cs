@@ -33,7 +33,7 @@ public class GestureManager : MonoBehaviour
 
     [SerializeField]
     float flickDetectionConfidence = .75f, leanDetectionConfidence = .75f, pressDetectionConfidence = .75f,
-        pushDetectionConfidence = .75f, squatDetectionConfidence = .75f;
+        pushDetectionConfidence = .99f, squatDetectionConfidence = .75f;
 
     KinectSensor sensor;
     BodyFrameReader bodyFrameReader;

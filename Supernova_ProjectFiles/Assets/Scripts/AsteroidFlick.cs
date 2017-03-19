@@ -25,8 +25,8 @@ public class AsteroidFlick : MonoBehaviour
     
     List<Rigidbody> flickedAsteroids;
 
-    Color originalColor;
-    Vector2 originalSize;
+    Color originalScoreTextColor;
+    Vector2 originalScoreTextSize;
     bool canFlick = true;
 
     // whenever this script is enabled, we can subscribe to events in GestureManager
@@ -47,8 +47,8 @@ public class AsteroidFlick : MonoBehaviour
         asteroidsInTrigger = new List<Rigidbody>();
         flickedAsteroids = new List<Rigidbody>();
 
-        originalColor = scoreText.color;
-        originalSize = scoreText.rectTransform.localScale;
+        originalScoreTextColor = scoreText.color;
+        originalScoreTextSize = scoreText.rectTransform.localScale;
 
         goalText.text = "/ " + maxScore;
     }
@@ -59,7 +59,7 @@ public class AsteroidFlick : MonoBehaviour
         if (flickedAsteroids.Count > 0) scoreText.text = flickedAsteroids.Count.ToString();
 
         // if enough asteroids have been swiped, go to win screen
-        if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene(2);
+        if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene(3);
     }
 
     void OnTriggerEnter(Collider other)
@@ -75,12 +75,17 @@ public class AsteroidFlick : MonoBehaviour
         {
             // push the asteroid offscreen to the right
             r.AddForce(Vector3.right * flickForce);
-            if (canFlick) flickedAsteroids.Add(r);
+            if (canFlick)
+            {
+                flickedAsteroids.Add(r);
+            }
+        }
+        if (canFlick)
+        {
+            // make the score text flash
+            StartCoroutine(ScoreTextEffects());
         }
         canFlick = false;
-
-        // make the score text flash
-        StartCoroutine(ScoreTextEffects());
     }
 
     IEnumerator ScoreTextEffects()
@@ -90,10 +95,10 @@ public class AsteroidFlick : MonoBehaviour
         while (elapsedTime < timer)
         {
             // make the score text yellow
-            scoreText.color = Color.Lerp(originalColor, Color.yellow, elapsedTime / timer);
+            scoreText.color = Color.Lerp(originalScoreTextColor, Color.yellow, elapsedTime / timer);
 
             // make the score text bigger
-            scoreText.transform.localScale = Vector2.Lerp(originalSize, originalSize * 1.5f, elapsedTime / timer);
+            scoreText.transform.localScale = Vector2.Lerp(originalScoreTextSize, originalScoreTextSize * 1.5f, elapsedTime / timer);
 
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
@@ -103,17 +108,17 @@ public class AsteroidFlick : MonoBehaviour
         while (elapsedTime < timer)
         {
             // change the score text back to its original color
-            scoreText.color = Color.Lerp(Color.yellow, originalColor, elapsedTime / timer);
+            scoreText.color = Color.Lerp(Color.yellow, originalScoreTextColor, elapsedTime / timer);
 
             // change the score text back to its original size
-            scoreText.transform.localScale = Vector2.Lerp(originalSize * 1.5f, originalSize, elapsedTime / timer);
+            scoreText.transform.localScale = Vector2.Lerp(originalScoreTextSize * 1.5f, originalScoreTextSize, elapsedTime / timer);
 
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
 
-        scoreText.color = originalColor;
-        scoreText.rectTransform.localScale = originalSize;
+        scoreText.color = originalScoreTextColor;
+        scoreText.rectTransform.localScale = originalScoreTextSize;
 
         yield return new WaitForSeconds(2);
         canFlick = true;
