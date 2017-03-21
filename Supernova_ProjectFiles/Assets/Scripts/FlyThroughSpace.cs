@@ -15,11 +15,11 @@ public class FlyThroughSpace : MonoBehaviour
 
     void OnEnable()
     {
-        GestureManager.OnPushDetected += SlowDown;
+        //GestureManager.OnPushDetected += SlowDown;
     }
     void OnDisable()
     {
-        GestureManager.OnPushDetected -= SlowDown;
+        //GestureManager.OnPushDetected -= SlowDown;
     }
 
     void Start()

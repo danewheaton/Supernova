@@ -36,6 +36,11 @@ public class MenuSwipe : MonoBehaviour
         Invoke("SetCanSwipe", 1);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SceneManager.LoadScene(1);
+    }
+
     void SetCanSwipe()
     {
         canSwipe = true;

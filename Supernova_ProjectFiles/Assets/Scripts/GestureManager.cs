@@ -45,6 +45,8 @@ public class GestureManager : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+
         sensor = KinectSensor.GetDefault();
 
         if (sensor != null)
@@ -59,8 +61,6 @@ public class GestureManager : MonoBehaviour
 
             sensor.Open();
         }
-
-        Cursor.visible = false;
     }
 
     void Update()
