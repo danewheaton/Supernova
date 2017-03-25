@@ -60,6 +60,8 @@ public class AsteroidFlick : MonoBehaviour
 
         // if enough asteroids have been swiped, go to win screen
         if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene(3);
+
+        if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
     }
 
     void OnTriggerEnter(Collider other)
