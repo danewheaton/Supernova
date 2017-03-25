@@ -1,15 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof(Rigidbody))]
-
-public class FlyThroughSpace : MonoBehaviour
+public class Planet : MonoBehaviour
 {
     [SerializeField]
-    float minSpeed = .01f, maxSpeed = .5f, rearZDist = -10, frontZDist = 100, slowDownFactor = 8;
+    float minSpeed = .1f, maxSpeed = 1, rearZDist = -10, frontZDist = 500, slowDownFactor = 8;
+
+    [SerializeField]
+    Transform[] planetTransforms;
+
+    Vector3[] startPositions;
 
     Rigidbody rb;
-    Vector3 startPos, randomRotation;
+    Vector3 randomRotation;
     float speed, startSpeed;
     bool canSlow = true;
 
@@ -28,19 +31,24 @@ public class FlyThroughSpace : MonoBehaviour
         startSpeed = speed;
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-        startPos = transform.position;
 
         randomRotation = new Vector3
             (Random.Range(0, 2) * Random.Range(0, 50),
             Random.Range(0, 2) * Random.Range(0, 50),
             Random.Range(0, 2) * Random.Range(0, 50));
+
+        startPositions = new Vector3[planetTransforms.Length];
+
+        for (int i = 0; i < planetTransforms.Length; i++)
+            startPositions[i] = planetTransforms[i].position;
     }
 
     void Update()
     {
         if (transform.position.z < rearZDist)
         {
-            transform.position = new Vector3(startPos.x, startPos.y, frontZDist);
+            Vector3 newPos = startPositions[Random.Range(0, startPositions.Length)];
+            transform.position = new Vector3(newPos.x, newPos.y, frontZDist);
             rb.velocity = Vector3.zero;
         }
         transform.position -= Vector3.forward * speed;

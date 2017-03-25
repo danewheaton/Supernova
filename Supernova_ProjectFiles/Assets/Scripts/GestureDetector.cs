@@ -46,7 +46,7 @@ public class GestureDetector : IDisposable
     private readonly string flickDB = "GestureDB\\flick.gbd";
     private readonly string pressDB = "GestureDB\\press.gbd";
     private readonly string pushDB = "GestureDB\\push.gbd";
-    private readonly string squatDB = "GestureDB\\squat.gbd";
+    private readonly string squatDB = "GestureDB\\squatwhole.gbd";
 
 
     /// <summary> Name of the discrete gesture in the database that we want to track </summary>

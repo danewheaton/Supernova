@@ -27,11 +27,11 @@ public class PlanetSquat : MonoBehaviour
 
     void OnEnable()
     {
-        GestureManager.OnSquatDetected += Squat;
+        GestureManager.OnSquatDetected += Duck;
     }
     void OnDisable()
     {
-        GestureManager.OnSquatDetected -= Squat;
+        GestureManager.OnSquatDetected -= Duck;
     }
 
     void Start()
@@ -61,7 +61,7 @@ public class PlanetSquat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
     }
 
-    void Squat()
+    void Duck()
     {
         if (canSquat)
         {

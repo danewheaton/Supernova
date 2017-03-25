@@ -17,18 +17,18 @@ public class MenuSwipe : MonoBehaviour
     {
         // when OnFlickDetected happens, link it to our own SwipeText function
         GestureManager.OnFlickDetected += SwipeText;
-        GestureManager.OnSquatDetected += Squat;
-        GestureManager.OnLeanLeftDetected += Lean;
-        GestureManager.OnLeanRightDetected += Lean;
+        //GestureManager.OnSquatDetected += Squat;
+        GestureManager.OnLeanLeftDetected += LoadMainMenu;
+        GestureManager.OnLeanRightDetected += LoadMainMenu;
     }
 
     // likewise, when this script is disabled, it's a good idea to unsubscribe (so that function calls don't pile up)
     void OnDisable()
     {
         GestureManager.OnFlickDetected -= SwipeText;
-        GestureManager.OnSquatDetected -= Squat;
-        GestureManager.OnLeanLeftDetected -= Lean;
-        GestureManager.OnLeanRightDetected -= Lean;
+        //GestureManager.OnSquatDetected -= Squat;
+        GestureManager.OnLeanLeftDetected -= LoadMainMenu;
+        GestureManager.OnLeanRightDetected -= LoadMainMenu;
     }
 
     void Start()
@@ -56,7 +56,7 @@ public class MenuSwipe : MonoBehaviour
         if (canSwipe && ChangeGame.currentGame == GameState.SQUATTING) StartCoroutine(PushTextOffscreen(false));
     }
 
-    void Lean()
+    void LoadMainMenu()
     {
         if (SceneManager.GetActiveScene().buildIndex > 2) SceneManager.LoadScene(0);
     }
