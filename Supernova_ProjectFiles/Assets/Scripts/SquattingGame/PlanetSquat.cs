@@ -27,11 +27,11 @@ public class PlanetSquat : MonoBehaviour
 
     void OnEnable()
     {
-        GestureManager.OnSquatDetected += Duck;
+        GestureManager.OnSquatDetected += DodgePlanet;
     }
     void OnDisable()
     {
-        GestureManager.OnSquatDetected -= Duck;
+        GestureManager.OnSquatDetected -= DodgePlanet;
     }
 
     void Start()
@@ -61,16 +61,16 @@ public class PlanetSquat : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
     }
 
-    void Duck()
+    void DodgePlanet()
     {
-        if (canSquat)
-        {
-            canSquat = false;
-            targetPos = squattingPos;
+        targetPos = squattingPos;
 
-            // make the score text flash
-            StartCoroutine(ScoreTextEffects());
-        }
+        foreach (Rigidbody r in planetsInTrigger) if (canSquat) planetsDodged.Add(r);
+
+        // make the score text flash
+        if (canSquat) StartCoroutine(ScoreTextEffects());
+
+        canSquat = false;
     }
 
     void OnTriggerEnter(Collider other)

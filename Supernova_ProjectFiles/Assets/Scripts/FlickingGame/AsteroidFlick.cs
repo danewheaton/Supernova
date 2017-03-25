@@ -77,10 +77,7 @@ public class AsteroidFlick : MonoBehaviour
         {
             // push the asteroid offscreen to the right
             r.AddForce(Vector3.right * flickForce);
-            if (canFlick)
-            {
-                flickedAsteroids.Add(r);
-            }
+            if (canFlick) flickedAsteroids.Add(r);
         }
         if (canFlick)
         {

@@ -4,7 +4,7 @@ using System.Collections;
 public class Planet : MonoBehaviour
 {
     [SerializeField]
-    float minSpeed = .1f, maxSpeed = 1, rearZDist = -10, frontZDist = 500, slowDownFactor = 8;
+    float minSpeed = .1f, maxMoveSpeed = 1, maxRotationSpeed = 20, rearZDist = -10, frontZDist = 500, slowDownFactor = 8;
 
     [SerializeField]
     Transform[] planetTransforms;
@@ -27,15 +27,15 @@ public class Planet : MonoBehaviour
 
     void Start()
     {
-        speed = Random.Range(minSpeed * 100, maxSpeed * 100) / 100;
+        speed = Random.Range(minSpeed * 100, maxMoveSpeed * 100) / 100;
         startSpeed = speed;
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
 
         randomRotation = new Vector3
-            (Random.Range(0, 2) * Random.Range(0, 50),
-            Random.Range(0, 2) * Random.Range(0, 50),
-            Random.Range(0, 2) * Random.Range(0, 50));
+            (Random.Range(0, 2) * Random.Range(0, maxRotationSpeed),
+            Random.Range(0, 2) * Random.Range(0, maxRotationSpeed),
+            Random.Range(0, 2) * Random.Range(0, maxRotationSpeed));
 
         startPositions = new Vector3[planetTransforms.Length];
 
