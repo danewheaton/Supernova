@@ -81,6 +81,6 @@ public class MenuSwipe : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene(flicking ? 1 : 2);
+        SceneManager.LoadScene(flicking ? "AsteroidFlick" : "PlanetSquat");
     }
 }

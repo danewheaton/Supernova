@@ -22,6 +22,9 @@ public class AsteroidFlick : MonoBehaviour
 
     [SerializeField]
     int maxScore = 100;
+
+    [SerializeField]
+    UnityEngine.AudioSource source;
     
     List<Rigidbody> flickedAsteroids;
 
@@ -59,7 +62,7 @@ public class AsteroidFlick : MonoBehaviour
         if (flickedAsteroids.Count > 0) scoreText.text = flickedAsteroids.Count.ToString();
 
         // if enough asteroids have been swiped, go to win screen
-        if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene(3);
+        if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene("AsteroidEndScene");
 
         if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
     }
@@ -77,6 +80,10 @@ public class AsteroidFlick : MonoBehaviour
         {
             // push the asteroid offscreen to the right
             r.AddForce(Vector3.right * flickForce);
+
+            // play whoosh sound
+            r.GetComponent<FlickSound>().PlaySound();
+
             if (canFlick) flickedAsteroids.Add(r);
         }
         if (canFlick)
@@ -125,6 +132,8 @@ public class AsteroidFlick : MonoBehaviour
 
     IEnumerator ScreenShake()
     {
+        source.Play();
+
         Vector3 originalCamPos = Camera.main.transform.position;
 
         float elapsedTime = 0;

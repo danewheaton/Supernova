@@ -105,6 +105,7 @@ public class ChangeGame : MonoBehaviour
     void SwitchGame()
     {
         canLean = false;
+        GetComponent<AudioSource>().Play();
         foreach (Text t in instructionsTexts) t.enabled = false;
 
         switch (currentGame)
