@@ -82,7 +82,7 @@ public class SU_SpaceParticles : MonoBehaviour {
 		for (int i=0; i < maxParticles; i ++) {
 			ParticleSystem.Particle _newParticle = new ParticleSystem.Particle();					
 			_newParticle.position = _cacheTransform.position + (Random.insideUnitSphere * _distanceToSpawn);
-			_newParticle.lifetime = Mathf.Infinity;
+			_newParticle.remainingLifetime = Mathf.Infinity;
 			Vector3 _velocity = new Vector3(
 				Random.Range(minParticleDriftSpeed, maxParticleDriftSpeed) * driftSpeedMultiplier, 
 				Random.Range(minParticleDriftSpeed, maxParticleDriftSpeed) * driftSpeedMultiplier, 

@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 // SpaceUnity: Shader from Unity wiki
@@ -53,7 +55,7 @@ Shader "SpaceUnity/PlanetAtmosphere"
                     v2f o;
                    
                     v.vertex.xyz += v.normal*_Size;
-                    o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+                    o.pos = UnityObjectToClipPos (v.vertex);
                     o.normal = v.normal;
                     o.worldvertpos = mul(unity_ObjectToWorld, v.vertex);
                    
