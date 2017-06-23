@@ -20,18 +20,31 @@ public class MonkeySwing : MonoBehaviour
         GestureManager.OnLeanRightDetected -= SwingRight;
     }
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
-
     void SwingLeft()
     {
-        rb.AddForce(Vector2.left * swingForce);
+        if (MonkeyStates.currentState == MonkeyIs.HOLDING_VINE)
+        {
+            print("monkey should swing left");
+
+            rb = GetComponentInParent<Rigidbody2D>();
+
+            //rb.MovePosition(transform.position += (Vector3.left * swingForce));
+            rb.AddForce(Vector2.left * swingForce);
+        }
     }
 
     void SwingRight()
     {
-        rb.AddForce(Vector2.right * swingForce);
+        if (MonkeyStates.currentState == MonkeyIs.HOLDING_VINE)
+        {
+            print("monkey should swing right");
+
+            rb = GetComponentInParent<Rigidbody2D>();
+
+            //rb.MovePosition(transform.position += (Vector3.right * swingForce));
+            rb.AddForce(Vector2.right * swingForce);
+        }
     }
+
+
 }

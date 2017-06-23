@@ -24,9 +24,15 @@ public class MonkeyJump : MonoBehaviour
 
     void Jump()
     {
-        transform.SetParent(null);
-        rb.isKinematic = false;
-        rb.AddForce(Vector2.up * jumpForce);
-        rb.AddForce(Vector2.right * jumpForce);
+        if (MonkeyStates.currentState != MonkeyIs.JUMPING)
+        {
+            //print("monkey should jump");
+            transform.SetParent(null);
+            rb.isKinematic = false;
+            rb.AddForce(Vector2.up * jumpForce);
+            rb.AddForce(Vector2.right * jumpForce);
+
+            MonkeyStates.currentState = MonkeyIs.JUMPING;
+        }
     }
 }
