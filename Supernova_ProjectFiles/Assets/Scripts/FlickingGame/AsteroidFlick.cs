@@ -62,7 +62,7 @@ public class AsteroidFlick : MonoBehaviour
         if (flickedAsteroids.Count > 0) scoreText.text = flickedAsteroids.Count.ToString();
 
         // if enough asteroids have been swiped, go to win screen
-        if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene("AsteroidEndScene");
+        //if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene("AsteroidEndScene");
 
         if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
     }
