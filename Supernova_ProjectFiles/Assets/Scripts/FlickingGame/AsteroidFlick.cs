@@ -65,6 +65,8 @@ public class AsteroidFlick : MonoBehaviour
         //if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene("AsteroidEndScene");
 
         if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
+
+        if (Input.GetKeyDown(KeyCode.F)) FlickAsteroids();
     }
 
     void OnTriggerEnter(Collider other)

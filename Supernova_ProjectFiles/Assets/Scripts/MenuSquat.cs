@@ -33,6 +33,8 @@ public class MenuSquat : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha2)) SceneManager.LoadScene(2);
+
+        if (Input.GetKeyDown(KeyCode.S)) PushText();
     }
 
     void SetCanSquat()

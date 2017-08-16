@@ -22,6 +22,11 @@ public class MonkeyJump : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F)) Jump();
+    }
+
     void Jump()
     {
         if (MonkeyStates.currentState != MonkeyIs.JUMPING)

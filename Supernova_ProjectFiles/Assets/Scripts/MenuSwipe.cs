@@ -39,6 +39,9 @@ public class MenuSwipe : MonoBehaviour
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) SceneManager.LoadScene(1);
+
+        if (Input.GetKeyDown(KeyCode.F)) SwipeText();
+        if (Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.L)) LoadMainMenu();
     }
 
     void SetCanSwipe()
