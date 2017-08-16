@@ -24,7 +24,7 @@ public class MonkeyJump : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F)) Jump();
+        if (Input.GetKeyDown(KeyCode.Space)) Jump();
     }
 
     void Jump()

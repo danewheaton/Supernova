@@ -52,8 +52,8 @@ public class ChangeGame : MonoBehaviour
     {
         transform.Rotate(direction * rotationSpeed * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.L)) SwitchGameRight();
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.K)) SwitchGameLeft();
+        if (Input.GetKeyDown(KeyCode.RightArrow)) SwitchGameRight();
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) SwitchGameLeft();
 
         if (Mathf.Abs(transform.eulerAngles.z - targetEulers.z) < 5 && !canLean)
         {

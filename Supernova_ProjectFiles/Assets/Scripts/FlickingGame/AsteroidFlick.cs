@@ -66,7 +66,7 @@ public class AsteroidFlick : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
 
-        if (Input.GetKeyDown(KeyCode.F)) FlickAsteroids();
+        if (Input.GetKeyDown(KeyCode.Space)) FlickAsteroids();
     }
 
     void OnTriggerEnter(Collider other)

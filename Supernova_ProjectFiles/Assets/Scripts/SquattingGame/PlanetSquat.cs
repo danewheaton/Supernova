@@ -59,6 +59,8 @@ public class PlanetSquat : MonoBehaviour
         if (planetsDodged.Count >= maxScore) SceneManager.LoadScene("PlanetsEndScene");
 
         if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
+
+        if (Input.GetKeyDown(KeyCode.S)) DodgePlanet();
     }
 
     void DodgePlanet()

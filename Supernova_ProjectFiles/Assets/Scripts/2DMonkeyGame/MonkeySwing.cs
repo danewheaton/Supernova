@@ -20,6 +20,12 @@ public class MonkeySwing : MonoBehaviour
         GestureManager.OnLeanRightDetected -= SwingRight;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) SwingLeft();
+        if (Input.GetKeyDown(KeyCode.RightArrow)) SwingRight();
+    }
+
     void SwingLeft()
     {
         if (MonkeyStates.currentState == MonkeyIs.HOLDING_VINE)

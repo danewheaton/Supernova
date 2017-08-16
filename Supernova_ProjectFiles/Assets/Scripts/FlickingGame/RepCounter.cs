@@ -37,11 +37,14 @@ public class RepCounter : MonoBehaviour
         repText = GetComponent<Text>();
 
         foreach (GameObject g in objectsToDeactivate) g.SetActive(false);
-
-        if (Input.GetKeyDown(KeyCode.F)) StartGameOrCountReps();
-        if (Input.GetKeyDown(KeyCode.K)) DecreaseReps();
-        if (Input.GetKeyDown(KeyCode.L)) IncreaseReps();
 	}
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)) StartGameOrCountReps();
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) DecreaseReps();
+        if (Input.GetKeyDown(KeyCode.RightArrow)) IncreaseReps();
+    }
 
     void IncreaseReps()
     {
