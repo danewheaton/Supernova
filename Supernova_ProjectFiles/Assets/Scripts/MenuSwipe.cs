@@ -10,6 +10,9 @@ public class MenuSwipe : MonoBehaviour
     [SerializeField]
     float flickForce = 2;
 
+    [SerializeField]
+    Material skybox;
+
     bool canSwipe;
 
     // whenever this script is enabled, we can subscribe to events in GestureManager
@@ -38,7 +41,11 @@ public class MenuSwipe : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SceneManager.LoadScene(1);
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            skybox.SetFloat("_Exposure", 1);
+            SceneManager.LoadScene(1);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space)) SwipeText();
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow)) LoadMainMenu();
@@ -61,7 +68,11 @@ public class MenuSwipe : MonoBehaviour
 
     void LoadMainMenu()
     {
-        if (SceneManager.GetActiveScene().buildIndex > 2) SceneManager.LoadScene(0);
+        if (SceneManager.GetActiveScene().buildIndex > 2)
+        {
+            skybox.SetFloat("_Exposure", 1);
+            SceneManager.LoadScene(0);
+        }
     }
 
     IEnumerator PushTextOffscreen(bool flicking)

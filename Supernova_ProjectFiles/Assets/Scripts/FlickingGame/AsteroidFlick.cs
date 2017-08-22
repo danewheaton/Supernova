@@ -25,11 +25,15 @@ public class AsteroidFlick : MonoBehaviour
 
     [SerializeField]
     UnityEngine.AudioSource source;
+
+    [SerializeField]
+    Material skybox;
     
     List<Rigidbody> flickedAsteroids;
 
     Color originalScoreTextColor;
     Vector2 originalScoreTextSize;
+    float targetExposure = 1;
     bool canFlick = true;
 
     // whenever this script is enabled, we can subscribe to events in GestureManager
@@ -58,13 +62,19 @@ public class AsteroidFlick : MonoBehaviour
 
     void Update()
     {
+        skybox.SetFloat("_Exposure", Mathf.Lerp(skybox.GetFloat("_Exposure"), targetExposure, 2 * Time.deltaTime));
+
         // print score to screen
         if (flickedAsteroids.Count > 0) scoreText.text = flickedAsteroids.Count.ToString();
 
         // if enough asteroids have been swiped, go to win screen
         //if (flickedAsteroids.Count >= maxScore) SceneManager.LoadScene("AsteroidEndScene");
 
-        if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+            skybox.SetFloat("_Exposure", Mathf.Lerp(skybox.GetFloat("_Exposure"), targetExposure, 1));
+        }
 
         if (Input.GetKeyDown(KeyCode.Space)) FlickAsteroids();
     }
@@ -73,6 +83,11 @@ public class AsteroidFlick : MonoBehaviour
     {
         // if an asteroid bumps into you, shake the screen
         StartCoroutine(ScreenShake());
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        skybox.SetFloat("_Exposure", 1);
     }
 
     void FlickAsteroids()
@@ -94,6 +109,11 @@ public class AsteroidFlick : MonoBehaviour
             StartCoroutine(ScoreTextEffects());
         }
         canFlick = false;
+
+        if (asteroidsInTrigger.Count > 0)
+        {
+            targetExposure += .25f;
+        }
     }
 
     IEnumerator ScoreTextEffects()
