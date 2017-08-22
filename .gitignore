@@ -1,6 +1,5 @@
 *.suo
-2dDemo/Library/
-Supernova_ProjectFiles/.vs/Supernova_ProjectFiles/v14/.suo
-2dDemo/2dDemo.sln
-2dDemo/2dDemo.CSharp.csproj
-2dDemo/.vs/2dDemo/v14/.suo
+*.sln
+*.csproj
+monkeyTest/Library/
+monkeyTest/.vs/
