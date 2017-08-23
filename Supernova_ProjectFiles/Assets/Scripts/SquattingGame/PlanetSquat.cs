@@ -58,7 +58,7 @@ public class PlanetSquat : MonoBehaviour
         // if enough asteroids have been swiped, go to win screen
         if (planetsDodged.Count >= maxScore) SceneManager.LoadScene("PlanetsEndScene");
 
-        if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(0);
+        if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(1);
 
         if (Input.GetKeyDown(KeyCode.S)) DodgePlanet();
     }

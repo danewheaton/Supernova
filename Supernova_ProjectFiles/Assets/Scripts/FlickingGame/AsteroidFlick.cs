@@ -72,7 +72,7 @@ public class AsteroidFlick : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(1);
             skybox.SetFloat("_Exposure", Mathf.Lerp(skybox.GetFloat("_Exposure"), targetExposure, 1));
         }
 

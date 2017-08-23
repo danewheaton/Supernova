@@ -32,7 +32,7 @@ public class MenuSquat : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SceneManager.LoadScene(2);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SceneManager.LoadScene(3);
 
         if (Input.GetKeyDown(KeyCode.S)) PushText();
     }
@@ -67,6 +67,6 @@ public class MenuSquat : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 }
