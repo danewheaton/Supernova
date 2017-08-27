@@ -38,9 +38,29 @@ public class IntroSequence : MonoBehaviour
 
     IEnumerator Intro()
     {
+        float elapsedTime = 0;
+        while (elapsedTime < shortTimer)
+        {
+            panel.color = Color.Lerp(Color.black, Color.white, elapsedTime / shortTimer);
+
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        panel.color = Color.white;
+
+        elapsedTime = 0;
+        while (elapsedTime < longTimer)
+        {
+            panel.color = Color.Lerp(Color.white, startColor, elapsedTime / longTimer);
+
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+        panel.color = startColor;
+
         yield return new WaitForSeconds(.5f);
 
-        float elapsedTime = 0;
+        elapsedTime = 0;
         while (elapsedTime < longTimer)
         {
             title.color = Color.Lerp(startColor, Color.white, elapsedTime / longTimer);
