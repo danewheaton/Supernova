@@ -58,12 +58,12 @@ public class MenuSwipe : MonoBehaviour
 
     void SwipeText()
     {
-        if (canSwipe && ChangeGame.currentGame == GameState.FLICKING) StartCoroutine(PushTextOffscreen(true));
+        if (canSwipe && ChangeGame.currentGame == GameState.SUPERNOVA) StartCoroutine(PushTextOffscreen(true));
     }
 
     void Squat()
     {
-        if (canSwipe && ChangeGame.currentGame == GameState.SQUATTING) StartCoroutine(PushTextOffscreen(false));
+        if (canSwipe && ChangeGame.currentGame == GameState.JETTISON) StartCoroutine(PushTextOffscreen(false));
     }
 
     void LoadMainMenu()
@@ -95,6 +95,7 @@ public class MenuSwipe : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene(flicking ? "AsteroidFlick" : "PlanetSquat");
+        if (ChangeGame.currentGame == GameState.HORIZON) SceneManager.LoadScene("Horizon");
+        else SceneManager.LoadScene(flicking ? "Supernova" : "Jettison");
     }
 }

@@ -17,7 +17,7 @@ Platform assembly: C:\Users\Dane\Documents\text\g\_ProjectFiles\_Versioned\Super
 Loading C:\Users\Dane\Documents\text\g\_ProjectFiles\_Versioned\Supernova\Supernova_ProjectFiles\Builds\Supernova_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\Users\Dane\Documents\text\g\_ProjectFiles\_Versioned\Supernova\Supernova_ProjectFiles\Builds\Supernova_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\Dane\Documents\text\g\_ProjectFiles\_Versioned\Supernova\Supernova_ProjectFiles\Builds\Supernova_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.027 seconds
+- Completed reload, in  0.050 seconds
 Platform assembly: C:\Users\Dane\Documents\text\g\_ProjectFiles\_Versioned\Supernova\Supernova_ProjectFiles\Builds\Supernova_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\Dane\Documents\text\g\_ProjectFiles\_Versioned\Supernova\Supernova_ProjectFiles\Builds\Supernova_Data\Managed\System.dll (this message is harmless)
 OnLevelWasLoaded was found on AsteroidFlick
@@ -30,7 +30,13 @@ Add a delegate to SceneManager.sceneLoaded instead to get notifications after sc
 <RI> Input initialized.
 desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initialized touch support.
-UnloadTime: 2.188970 ms
+UnloadTime: 2.149782 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 7ba0 -> priority: 1 
-  Thread -> id: 2338 -> priority: 1 
+  Thread -> id: b240 -> priority: 1 
+  Thread -> id: b1dc -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 7.618943 ms
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 619.
+Total: 0.394220 ms (FindLiveObjects: 0.040121 ms CreateObjectMapping: 0.037789 ms MarkObjects: 0.264990 ms  DeleteObjects: 0.050852 ms)
+

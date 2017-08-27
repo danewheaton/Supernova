@@ -44,7 +44,7 @@ public class MenuSquat : MonoBehaviour
 
     void PushText()
     {
-        if (canSquat && ChangeGame.currentGame == GameState.SQUATTING) StartCoroutine(PushTextOffscreen());
+        if (canSquat && ChangeGame.currentGame == GameState.JETTISON) StartCoroutine(PushTextOffscreen());
     }
 
     IEnumerator PushTextOffscreen()

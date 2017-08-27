@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public enum GameState { FLICKING, SQUATTING }
+public enum GameState { SUPERNOVA, JETTISON, HORIZON }
 
 public class ChangeGame : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class ChangeGame : MonoBehaviour
     float rotationSpeed = 3;
 
     [SerializeField]
-    Material cutesySkybox;
+    Material cutesySkybox, horizonSkybox;
 
     [SerializeField]
     GameObject[] nebulae;
@@ -20,7 +20,7 @@ public class ChangeGame : MonoBehaviour
     [SerializeField] Text[] instructionsTexts;
 
     Material prettySkybox;
-    Vector3 asteroidsGameEulers, planetsGameEulers, targetEulers, direction;
+    Vector3 supernovaEulers, jettisonEulers, horizonEulers, targetEulers, direction;
 
     bool canLean;
 
@@ -37,13 +37,14 @@ public class ChangeGame : MonoBehaviour
 
     private void Start()
     {
-        asteroidsGameEulers = transform.eulerAngles;
-        planetsGameEulers = new Vector3(transform.rotation.x, transform.rotation.y, 180);
-        targetEulers = asteroidsGameEulers;
+        supernovaEulers = transform.eulerAngles;
+        jettisonEulers = new Vector3(transform.rotation.x, transform.rotation.y, 120);
+        horizonEulers = new Vector3(transform.rotation.x, transform.rotation.y, 240);
+        targetEulers = supernovaEulers;
         direction = Vector3.zero;
 
         prettySkybox = RenderSettings.skybox;
-        currentGame = GameState.FLICKING;
+        currentGame = GameState.SUPERNOVA;
 
         Invoke("SetCanLean", 1);
     }
@@ -63,15 +64,20 @@ public class ChangeGame : MonoBehaviour
 
             switch (currentGame)
             {
-                case GameState.FLICKING:
+                case GameState.SUPERNOVA:
                     RenderSettings.skybox = prettySkybox;
                     foreach (GameObject g in nebulae) g.SetActive(true);
                     instructionsTexts[0].text = "SWIPE YOUR RIGHT HAND TO PLAY!";
                     break;
-                case GameState.SQUATTING:
+                case GameState.JETTISON:
                     RenderSettings.skybox = cutesySkybox;
                     foreach (GameObject g in nebulae) g.SetActive(false);
                     instructionsTexts[0].text = "SQUAT DOWN TO PLAY!";
+                    break;
+                case GameState.HORIZON:
+                    RenderSettings.skybox = horizonSkybox;
+                    foreach (GameObject g in nebulae) g.SetActive(false);
+                    instructionsTexts[0].text = "SWIPE YOUR RIGHT HAND TO PLAY!";
                     break;
             }
             
@@ -110,13 +116,17 @@ public class ChangeGame : MonoBehaviour
 
         switch (currentGame)
         {
-            case GameState.FLICKING:
-                targetEulers = planetsGameEulers;
-                currentGame = GameState.SQUATTING;
+            case GameState.SUPERNOVA:
+                targetEulers = jettisonEulers;
+                currentGame = GameState.JETTISON;
                 break;
-            case GameState.SQUATTING:
-                targetEulers = asteroidsGameEulers;
-                currentGame = GameState.FLICKING;
+            case GameState.JETTISON:
+                targetEulers = horizonEulers;
+                currentGame = GameState.HORIZON;
+                break;
+            case GameState.HORIZON:
+                targetEulers = supernovaEulers;
+                currentGame = GameState.SUPERNOVA;
                 break;
         }
     }
