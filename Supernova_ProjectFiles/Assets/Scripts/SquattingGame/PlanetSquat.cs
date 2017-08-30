@@ -50,6 +50,8 @@ public class PlanetSquat : MonoBehaviour
 
     void Update()
     {
+        print(planetsInTrigger.Count);
+
         transform.position = Vector3.Lerp(transform.position, targetPos, moveSpeed * Time.deltaTime);
 
         // print score to screen
@@ -60,7 +62,7 @@ public class PlanetSquat : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape)) SceneManager.LoadScene(1);
 
-        if (Input.GetKeyDown(KeyCode.S)) DodgePlanet();
+        if (Input.GetKeyDown(KeyCode.Space)) DodgePlanet();
     }
 
     void DodgePlanet()

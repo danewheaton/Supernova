@@ -9,7 +9,7 @@ public class ChangeGame : MonoBehaviour
     public static GameState currentGame;
 
     [SerializeField]
-    float rotationSpeed = 3;
+    float rotationSpeed = 150, rotationMarginOfError = 10;
 
     [SerializeField]
     Material cutesySkybox, horizonSkybox;
@@ -46,17 +46,22 @@ public class ChangeGame : MonoBehaviour
         prettySkybox = RenderSettings.skybox;
         currentGame = GameState.SUPERNOVA;
 
-        Invoke("SetCanLean", 1);
+        Invoke("SetCanLean", .1f);
     }
 
     void Update()
     {
-        transform.Rotate(direction * rotationSpeed * Time.deltaTime);
-
         if (Input.GetKeyDown(KeyCode.RightArrow)) SwitchGameRight();
         if (Input.GetKeyDown(KeyCode.LeftArrow)) SwitchGameLeft();
 
-        if (Mathf.Abs(transform.eulerAngles.z - targetEulers.z) < 5 && !canLean)
+        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+    }
+
+    private void FixedUpdate()
+    {
+        transform.Rotate(direction * rotationSpeed * Time.deltaTime);
+
+        if (Mathf.Abs(transform.eulerAngles.z - targetEulers.z) < rotationMarginOfError && !canLean)
         {
             transform.eulerAngles = targetEulers;
             foreach (Text t in instructionsTexts) t.enabled = true;
@@ -80,7 +85,7 @@ public class ChangeGame : MonoBehaviour
                     instructionsTexts[0].text = "SWIPE YOUR RIGHT HAND TO PLAY!";
                     break;
             }
-            
+
             canLean = true;
         }
     }
@@ -104,7 +109,7 @@ public class ChangeGame : MonoBehaviour
         if (canLean)
         {
             SwitchGame();
-            direction = Vector3.back;
+            direction = Vector3.forward;
         }
     }
 

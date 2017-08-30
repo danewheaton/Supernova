@@ -93,8 +93,6 @@ public class GestureManager : MonoBehaviour
                 }
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
     }
 
     private EventHandler<GestureEventArgs> CreateOnGestureHandler(int bodyIndex)

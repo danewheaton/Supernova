@@ -58,7 +58,8 @@ public class MenuSwipe : MonoBehaviour
 
     void SwipeText()
     {
-        if (canSwipe && ChangeGame.currentGame == GameState.SUPERNOVA) StartCoroutine(PushTextOffscreen(true));
+        if (canSwipe && (ChangeGame.currentGame == GameState.SUPERNOVA || ChangeGame.currentGame == GameState.HORIZON))
+            StartCoroutine(PushTextOffscreen(true));
     }
 
     void Squat()

@@ -32,9 +32,9 @@ public class MenuSquat : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SceneManager.LoadScene(3);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SceneManager.LoadScene("Jettison");
 
-        if (Input.GetKeyDown(KeyCode.S)) PushText();
+        if (Input.GetKeyDown(KeyCode.Space)) PushText();
     }
 
     void SetCanSquat()
@@ -67,6 +67,6 @@ public class MenuSquat : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("Jettison");
     }
 }
